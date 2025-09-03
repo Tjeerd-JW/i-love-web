@@ -1,6 +1,34 @@
-<script setup>
+<script>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
+import axios from "axios";
+
+export default {
+  components: {
+    AuthenticatedLayout,
+    Head,
+  },
+  data() {
+    return {
+      notes: [],
+    };
+  },
+  mounted() {
+    this.fetchNotes();
+  },
+  methods:{
+    async fetchNotes() {
+      try {
+        const response = await axios.get('/notes');
+        this.notes = response.data;
+        console.log(this.notes);
+      } catch (error) {
+        console.error('Error fetching notes:', error);
+      }
+    }
+  }
+};  
+
 </script>
 
 <template>
@@ -15,7 +43,14 @@ import { Head } from "@inertiajs/vue3";
           <!-- <div class="dashboard-button">Zoeken</div> -->
         </div>
 
-        <div>
+        <div class="notes-list">
+          <div v-for="note in notes" :key="note.id" class="note-item">
+            <h2>{{ note.title }}</h2>
+            <p>{{ note.description }}</p>
+            <p><strong>{{ note.sprint }}</strong> </p>
+            <a :href="`/notes/${note.id}`">bekijk</a>
+          </div>
+
 
         </div>
       </main>

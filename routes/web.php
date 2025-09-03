@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\NoteController;
+use App\Models\Note;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +19,28 @@ use Inertia\Inertia;
 */
 
 
-Route::get('/test', function(){
-    return Inertia::render('test');
+Route::get('/notes/{id}', function ($id) {
+    $note = Note::findOrFail($id);
+    return Inertia::render('ViewNote', [
+        'note' => $note,
+    ]);
 });
+Route::get('/notes', [NoteController::class, 'index']);
+Route::get('/notes/search/{searchterm}', [NoteController::class, 'search']);
+Route::get('/create/note', function () {
+    return Inertia::render('CreateNote');
+});
+Route::post('/notes/store', [NoteController::class, 'store']);
 
+
+Route::get('/notes/edit/{id}', function ($id) {
+    $note = Note::findOrFail($id);
+    return Inertia::render('EditNote', [
+        'note' => $note,
+    ]);
+});
+Route::put('/notes/{id}', [NoteController::class, 'update']);
+Route::delete('/notes/{id}', [NoteController::class, 'destroy']);
 
 Route::get('/', function () {
     return Inertia::render('Home', [
