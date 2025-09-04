@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\NoteController;
 use App\Models\Note;
+use App\Models\Type;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,15 +29,20 @@ Route::get('/notes/{id}', function ($id) {
 Route::get('/notes', [NoteController::class, 'index']);
 Route::get('/notes/search/{searchterm}', [NoteController::class, 'search']);
 Route::get('/create/note', function () {
-    return Inertia::render('CreateNote');
+    $types = Type::all();
+    return Inertia::render('CreateNote', [
+        'types' => $types,
+    ]);
 });
 Route::post('/notes/store', [NoteController::class, 'store']);
 
 
 Route::get('/notes/edit/{id}', function ($id) {
     $note = Note::findOrFail($id);
+    $types = Type::all();
     return Inertia::render('EditNote', [
         'note' => $note,
+        'types' => $types,
     ]);
 });
 Route::put('/notes/{id}', [NoteController::class, 'update']);
@@ -61,4 +67,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

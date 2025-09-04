@@ -16,19 +16,18 @@ export default {
   mounted() {
     this.fetchNotes();
   },
-  methods:{
+  methods: {
     async fetchNotes() {
       try {
-        const response = await axios.get('/notes');
+        const response = await axios.get("/notes");
         this.notes = response.data;
         console.log(this.notes);
       } catch (error) {
-        console.error('Error fetching notes:', error);
+        console.error("Error fetching notes:", error);
       }
-    }
-  }
-};  
-
+    },
+  },
+};
 </script>
 
 <template>
@@ -38,20 +37,19 @@ export default {
     <body>
       <main>
         <h1>I love Web</h1>
-        <div>
-          <div class="dashboard-button">New note</div>
+        <a>
+          <a href="/create/note" class="dashboard-button">New note</a>
           <!-- <div class="dashboard-button">Zoeken</div> -->
-        </div>
-
+        </a>
         <div class="notes-list">
           <div v-for="note in notes" :key="note.id" class="note-item">
             <h2>{{ note.title }}</h2>
             <p>{{ note.description }}</p>
-            <p><strong>{{ note.sprint }}</strong> </p>
+            <p>
+              <strong>{{ note.sprint }}</strong>
+            </p>
             <a :href="`/notes/${note.id}`">bekijk</a>
           </div>
-
-
         </div>
       </main>
     </body>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('description')->nullable();
             $table->string('sprint')->nullable();
-            $table->string('content');
+            $table->text('content'); 
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
