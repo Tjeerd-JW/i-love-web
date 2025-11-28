@@ -1,11 +1,13 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
+// Replace 'i-love-web' with your repo name
+const repoName = 'i-love-web'
+
 export default defineConfig({
+  base: `/${repoName}/`, 
   plugins: [
     vue(),
     vueDevTools(),
