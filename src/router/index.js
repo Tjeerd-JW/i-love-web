@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
+import CSSChallengeView from '../views/CSSChallengesView.vue'
 import MediaQueryView from '@/views/MediaQueryView.vue'
 import LeesbareTekstenView from '@/views/LeesbareTekstenView.vue'
+import CSSView from '@/views/CSSView.vue'
 
 const routes = [
   {
@@ -11,10 +12,16 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    component: AboutView
+    path: '/css',
+    name: 'CSS',
+    component: CSSChallengeView
   },
+  {
+    path: '/css/:id',
+    name: 'css-item',
+    component: CSSView
+  },
+
   {
     path: '/mediaquery',
     name: 'mediaquery',
