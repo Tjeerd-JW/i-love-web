@@ -4,6 +4,8 @@ import CSSChallengeView from '../views/CSSChallengesView.vue'
 import MediaQueryView from '@/views/MediaQueryView.vue'
 import LeesbareTekstenView from '@/views/LeesbareTekstenView.vue'
 import CSSView from '@/views/CSSView.vue'
+import PokemonListView from '@/views/PokemonListView.vue'
+import PokemonDetailView from '@/views/PokemonDetailView.vue'
 
 const routes = [
   {
@@ -31,6 +33,16 @@ const routes = [
     path: '/LeesbareTeksten',
     name: 'LeesbareTeksten',
     component: LeesbareTekstenView
+  }, 
+  {
+    path: '/pokemon',
+    name: 'pokemonlist',
+    component: PokemonListView
+  },
+  {
+    path: '/pokemon/:pokemonName',
+    name: 'PokemonDetails',
+    component: PokemonDetailView
   }
 ]
 

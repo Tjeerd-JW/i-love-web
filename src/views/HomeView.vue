@@ -20,6 +20,11 @@ export default {
         <router-link to="/LeesbareTeksten">bekijken</router-link>
       </article>
 
+      <article>
+        <h3>Pokemon api</h3>
+        <router-link to="/pokemon">bekijken</router-link>
+      </article>
+
       <!-- <article>
         <h3></h3>
         <router-link to="/">bekijken</router-link>
@@ -61,7 +66,7 @@ main {
         &::after {
           content: "→";
           opacity: 0;
-          transition: .2s ease-in-out;
+          transition: 0.2s ease-in-out;
         }
         &:hover {
           margin-left: 0.4rem;
