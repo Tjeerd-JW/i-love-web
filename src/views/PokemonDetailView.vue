@@ -14,13 +14,7 @@ export default {
       descriptions: [],
       currentImg: null,
       evolutionChain: [],
-      evoStage1: {
-        name: "",
-        img: "",
-        baby: null,
-        babyItem: null,
-      },
-      evoChain: [],
+      pokemonEvolutions: [],
     };
   },
   methods: {
@@ -62,6 +56,18 @@ export default {
         console.log("error", error);
       }
     },
+    async fetchEvolutionImg(name) {
+      try {
+        const response = await fetch(`${pokeURL}pokemon/${name}`);
+        // parse de response naar een json
+        let evoImgResponse = await response.json();
+        let evoImg = evoImgResponse.sprites.front_default;
+        // console.log(evoImg);
+        return evoImg;
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    },
     async changeForm(url) {
       try {
         const response = await fetch(url);
@@ -72,11 +78,59 @@ export default {
         console.log("error", error);
       }
     },
-    evolutionHandler() {
-      console.log("evohandler", this.evolutionChain);
-      this.evoStage1.name = this.evolutionChain.chain.species.name;
-      this.evoChain = this.evolutionChain.chain.evolves_to;
-      console.log(this.evoChain[0].species.name);
+    async evolutionHandler() {
+      // normalize de api data zodat alleen de belangrijke dingen erin zitten
+      // een recursive function, roept zichzelf opnieuwe op voor elke evolutie
+      const buildNode = async (chainNode) => {
+        const name = chainNode.species.name;
+        const img = await this.fetchEvolutionImg(name);
+        const node = {
+          // bouw 1 stukje data voor de chain
+          name,
+          img,
+          evoDetails: chainNode.evolution_details?.[0] ?? null,
+          evolvesTo: [],
+        };
+        // door naar de volgdende
+
+        // wacht totdat de api heeft gereageerd met de images van de evo's
+        node.evolvesTo = await Promise.all(
+          chainNode.evolves_to.map(next => buildNode(next))
+        )
+        // oude versie werkte niet voor afbeeldingen
+        // chainNode.evolves_to.forEach((next) => {
+        //   node.evolvesTo.push(buildNode(next));
+        // });
+
+        return node;
+      };
+
+      // roep de build node om de data beter in elkaar te zetten
+      this.pokemonEvolutions = await buildNode(this.evolutionChain.chain);
+      // oude versie
+      // let evoChain = this.evolutionChain.chain;
+      // this.pokemonEvolutions.name = evoChain.species.name;
+      // let evoName = this.pokemonEvolutions.name;
+      // this.pokemonEvolutions.img = this.fetchEvolutionImg(evoName);
+
+      // // console.log(this.pokemonEvolutions);
+      // let i = 0;
+      // evoChain.evolves_to.forEach((pokemonStage2) => {
+      //   // naam in array zetten
+      //   let currentEvo = evoChain.evolves_to[i];
+      //   this.pokemonEvolutions.evolvesTo[i].name = currentEvo.species.name;
+      //   // img in array zetten
+      //   evoName = currentEvo.species.name;
+      //   this.pokemonEvolutions.evolvesTo[i].img =
+      //     this.fetchEvolutionImg(evoName);
+      //   // laatste stage evoluties hetzefde weer doen
+      //   console.log(this.pokemonEvolutions.evolvesTo[i]);
+      //   pokemonStage2.evolves_to.forEach((pokemonStage3) => {
+      //     let evoName = pokemonStage3.species.name;
+      //     console.log(evoName);
+      //   });
+      //   console.log(this.pokemonEvolutions);
+      // });
     },
   },
   computed: {
@@ -167,40 +221,46 @@ export default {
       </ul>
     </article>
 
-    <article v-if="hasEvolutionChain" class="evolution">
+    <article v-if="pokemonEvolutions" class="evolution">
       <h2>Evoluties</h2>
       <div class="stage1">
         <img
-          @click="fetchPokemon(evoStage1.name)"
+          @click="fetchPokemon(pokemonEvolutions.name)"
           :src="currentImg"
           class="evoImg"
           alt=""
         />
-        <p>{{ evoStage1.name }}</p>
+        <p>{{ pokemonEvolutions.name }}</p>
       </div>
-      <div class="stage2" v-for="stage2 in evoChain" :key="stage2.species.name">
+      <!-- stage 2 evoluties -->
+      <div
+        class="stage2"
+        v-for="stage2 in pokemonEvolutions.evolvesTo"
+        :key="stage2.evolvesTo.name"
+      >
         <img
-          @click="fetchPokemon(stage2.species.name)"
-          :src="currentImg"
+          @click="fetchPokemon(stage2.name)"
+          :src="stage2.img"
           class="evoImg"
           alt=""
         />
         <p>
-          {{ stage2.species.name }}
+          {{ stage2.name }}
         </p>
+        <!-- stage 3 evoluties -->
         <div
           class="stage3"
-          v-for="stage3 in stage2.evolves_to"
-          :key="stage3.species.name"
+          v-for="stage3 in stage2.evolvesTo"
+          :key="stage3.evolvesTo.name"
         >
           <img
-            @click="fetchPokemon(stage3.species.name)"
-            :src="currentImg"
+            @click="fetchPokemon(stage3.name)"
+            :src="stage3.img"
             class="evoImg"
             alt=""
           />
           <p>
-            {{ stage3.species.name }}
+            {{ stage3.name }}
           </p>
         </div>
       </div>
