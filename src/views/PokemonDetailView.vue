@@ -226,7 +226,7 @@ export default {
       <div class="stage1">
         <img
           @click="fetchPokemon(pokemonEvolutions.name)"
-          :src="currentImg"
+          :src="pokemonEvolutions.img"
           class="evoImg"
           alt=""
         />
