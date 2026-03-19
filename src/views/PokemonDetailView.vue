@@ -224,41 +224,19 @@ export default {
     <article v-if="pokemonEvolutions" class="evolution">
       <h2>Evoluties</h2>
       <div class="stage1">
-        <img
-          @click="fetchPokemon(pokemonEvolutions.name)"
-          :src="pokemonEvolutions.img"
-          class="evoImg"
-          alt=""
-        />
+        <img @click="fetchPokemon(pokemonEvolutions.name)" :src="pokemonEvolutions.img" class="evoImg" alt="" />
         <p>{{ pokemonEvolutions.name }}</p>
       </div>
       <!-- stage 2 evoluties -->
-      <div
-        class="stage2"
-        v-for="stage2 in pokemonEvolutions.evolvesTo"
-        :key="stage2.evolvesTo.name"
-      >
-        <img
-          @click="fetchPokemon(stage2.name)"
-          :src="stage2.img"
-          class="evoImg"
-          alt=""
-        />
+      <div class="stage2" v-for="stage2 in pokemonEvolutions.evolvesTo" :key="stage2.evolvesTo.name">
+        <img @click="fetchPokemon(stage2.name)" :src="stage2.img" class="evoImg" alt="" />
         <p>
           {{ stage2.name }}
         </p>
         <!-- stage 3 evoluties -->
-        <div
-          class="stage3"
-          v-for="stage3 in stage2.evolvesTo"
-          :key="stage3.evolvesTo.name"
-        >
-          <img
-            @click="fetchPokemon(stage3.name)"
-            :src="stage3.img"
-            class="evoImg"
-            alt=""
-          />
+
+        <div class="stage3"   v-for="(stage3, i) in stage2.evolvesTo" :key="stage3.evolvesTo.name"  :style="{ '--var-grid-row': i }" >
+          <img @click="fetchPokemon(stage3.name)" :src="stage3.img" class="evoImg" alt="" />
           <p>
             {{ stage3.name }}
           </p>
@@ -282,12 +260,14 @@ a {
   cursor: pointer;
   text-decoration: underline;
 }
+
 .pokedex {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 0.5rem;
   width: fit-content;
   margin: 0 auto;
+
   .pokemonCry {
     grid-row: 4;
     grid-column: 1 / -1;
@@ -301,8 +281,10 @@ a {
     justify-content: start;
     padding: 0 1rem;
   }
+
   article {
     padding: 0 1rem;
+
     h2 {
       text-align: center;
     }
@@ -312,9 +294,11 @@ a {
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: 1fr 2fr;
+
     h2 {
       grid-column: 1 /-1;
     }
+
     .stage1 {
       grid-column: 1;
       grid-row: 2 / 100;
@@ -322,15 +306,18 @@ a {
       display: grid;
       align-content: center;
       height: 100%;
+
       .evoImg {
         height: 125px;
         width: 125px;
       }
+
       p {
         text-align: center;
         width: 100%;
       }
     }
+
     .stage2 {
       grid-column: 2;
       display: grid;
@@ -342,6 +329,7 @@ a {
         text-align: center;
         width: 100%;
       }
+
       .evoImg {
         grid-column: 1;
         margin: 0 auto;
@@ -349,10 +337,9 @@ a {
 
       .stage3 {
         grid-column: 2;
-        grid-row: 1 / 3;
         display: grid;
         justify-content: center;
-
+        grid-row: var(--var-grid-row);
         grid-template-columns: 1fr;
         height: 100%;
 
@@ -360,11 +347,13 @@ a {
           grid-column: 1;
           grid-row: 3;
         }
+
         .evoImg {
           grid-column: 1;
         }
       }
     }
+
     p {
       width: 100px;
     }
@@ -387,6 +376,7 @@ a {
     // justify-content: center;
     // align-items: baseline;
   }
+
   img {
     grid-column: 1;
     grid-row: 1 / 4;
@@ -396,6 +386,7 @@ a {
     padding: 0.5rem;
     height: clamp(100px, 100%, 300px);
   }
+
   .types {
     list-style: none;
     display: flex;
@@ -403,6 +394,7 @@ a {
     height: fit-content;
     gap: 0.5rem;
     padding: 0 1rem;
+
     li {
       background-color: blueviolet;
       color: white;
@@ -422,20 +414,23 @@ a {
     h2 {
       text-align: center;
     }
+
     ul {
       list-style: none;
-      li {
-      }
+
+      li {}
     }
   }
+
   .abilities {
     h2 {
       text-align: center;
     }
+
     ul {
       list-style: none;
-      li {
-      }
+
+      li {}
     }
   }
 }
