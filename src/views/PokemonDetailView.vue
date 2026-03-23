@@ -17,7 +17,8 @@ export default {
       pokemonEvolutions: [],
     };
   },
-  methods: {
+  methods: 
+  {
     playCryLatest() {
       this.pokemonCry.play();
     },
@@ -133,7 +134,8 @@ export default {
       // });
     },
   },
-  computed: {
+  computed:
+  {
     // computed is voor data
     descriptions() {
       // entries is een array of undefined
@@ -229,13 +231,17 @@ export default {
       </div>
       <!-- stage 2 evoluties -->
       <div class="stage2" v-for="stage2 in pokemonEvolutions.evolvesTo" :key="stage2.evolvesTo.name">
-        <img @click="fetchPokemon(stage2.name)" :src="stage2.img" class="evoImg" alt="" />
-        <p>
-          {{ stage2.name }}
-        </p>
+        <div class="stage2-details" :style="{ '--var-col-length': stage2.evolvesTo.length * 100 + '%' }">
+          <img @click="fetchPokemon(stage2.name)" :src="stage2.img" class="evoImg" alt="" />
+          <p>
+            {{ stage2.name }}
+          </p>
+        </div>
+
         <!-- stage 3 evoluties -->
 
-        <div class="stage3"   v-for="(stage3, i) in stage2.evolvesTo" :key="stage3.evolvesTo.name"  :style="{ '--var-grid-row': i }" >
+        <div class="stage3" v-for="(stage3, i) in stage2.evolvesTo" :key="stage3.evolvesTo.name"
+          :style="{ '--var-grid-row': i }">
           <img @click="fetchPokemon(stage3.name)" :src="stage3.img" class="evoImg" alt="" />
           <p>
             {{ stage3.name }}
@@ -323,6 +329,11 @@ a {
       display: grid;
 
       grid-template-columns: 1fr 1fr;
+
+      .stage2-details {
+        height: var(--var-col-length);
+        align-content: center;
+      }
 
       p {
         grid-column: 1;

@@ -6,6 +6,7 @@ import LeesbareTekstenView from '@/views/LeesbareTekstenView.vue'
 import CSSView from '@/views/CSSView.vue'
 import PokemonListView from '@/views/PokemonListView.vue'
 import PokemonDetailView from '@/views/PokemonDetailView.vue'
+import PokemonAbilityView from '@/views/PokemonAbilityView.vue'
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: '/pokemon/:pokemonName',
     name: 'PokemonDetails',
     component: PokemonDetailView
+  },
+  {
+    path: '/pokemon/ability/:abilityName',
+    name: 'AbilityDetails',
+    component: PokemonAbilityView
   }
 ]
 
