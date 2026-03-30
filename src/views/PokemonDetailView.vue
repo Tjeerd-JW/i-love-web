@@ -17,7 +17,7 @@ export default {
       pokemonEvolutions: [],
     };
   },
-  methods: 
+  methods:
   {
     playCryLatest() {
       this.pokemonCry.play();
@@ -199,9 +199,12 @@ export default {
     </article>
     <article class="abilities">
       <h2>abilities</h2>
-      <button v-for="ability in pokemon.abilities" :key="ability.ability.name">
-        {{ ability.ability.name }}
-      </button>
+
+      <router-link v-for="ability in pokemon.abilities" :key="ability.ability.name"
+        :to="'/pokemon/ability/' + ability.ability.name">
+        {{ ability.ability.name }} 
+      </router-link>
+
     </article>
     <article v-if="pokemon.forms.length > 1" class="forms">
       <h2>Vormen</h2>
