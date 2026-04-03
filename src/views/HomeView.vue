@@ -24,6 +24,10 @@ export default {
         <h3>Pokemon api</h3>
         <router-link to="/pokemon">bekijken</router-link>
       </article>
+      <article>
+        <h3>Panorama</h3>
+        <router-link to="/panorama">bekijken</router-link>
+      </article>
 
       <!-- <article>
         <h3></h3>
