@@ -3,6 +3,8 @@ import { ref } from "vue";
 const rotationX = ref(0);
 const rotationY = ref(0);
 
+// 6 images voor iedere kant van de kubus (gemaakt met minecraft tool)
+
 const images = [
   "/i-love-web/img/panorama/front.png",
   "/i-love-web/img/panorama/right.png",
@@ -12,6 +14,8 @@ const images = [
   "/i-love-web/img/panorama/bottom.png",
 ];
 
+
+// de rotaties aanpassen aan de hand van muisbewegingen
 function onMouseMove(e) {
   const x = e.clientX / window.innerWidth;
   const y = e.clientY / window.innerHeight;
@@ -22,7 +26,9 @@ rotationX.value = (y - 0.5) * -180
 </script>
 
 <template>
+    <!-- de scene is de camre met in css de perspective -->
   <div class="scene" @mousemove="onMouseMove">
+    <!-- de cube is waar je inzit met hieronder alle 6 de kanten -->
     <div
       class="cube"
       :style="{
@@ -80,7 +86,7 @@ transform: `translate(-50%, -50%) rotateX(${rotationX}deg) rotateY(${rotationY}d
   }
 }
 
-
+// translateZ dieuwt naar binnen zodat je in de kubus zit
 .front  { transform: rotateY(0deg)    translateZ(-512px); }
 .right  { transform: rotateY(-90deg)  translateZ(-512px); } 
 .back   { transform: rotateY(180deg)  translateZ(-512px); }
